@@ -3,7 +3,8 @@
 
 int main()
 {
-
+    //---------------------------INITIALIZE-------------------------------------------------------------
+            
     //Turning On anti-aliasing
     sf::ContextSettings aa;
     aa.antialiasingLevel = 8;
@@ -11,27 +12,20 @@ int main()
     //Create window object from RenderWindow class, takes 2 arguments into constructor
     sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game", sf::Style::Default, aa);
 
-    //Circle
-    sf::CircleShape circle(50.f);
-    float xCircle = 10;
-    float yCircle = 10;
-    circle.setPosition(xCircle, yCircle);
-    circle.setOutlineThickness(10);
-    circle.setOutlineColor(sf::Color::Red);
+    //Loading Player Sprite
+    sf::Texture playerTexture;
+    sf::Sprite playerSprite;
+    int XIndex = 4;
+    int YIndex = 2;
+    playerTexture.loadFromFile("Assets/Player/Textures/PlayerSkeleton.png");
+    playerSprite.setTexture(playerTexture);
+    playerSprite.setTextureRect(sf::IntRect(64 * XIndex, 64 * YIndex, 64, 64));
+    playerSprite.setScale(sf::Vector2f(2.f, 2.f));
 
-    //Rectangle
-    sf::Vector2f vRectangle;
-    vRectangle.x = 0.f;
-    vRectangle.y = 0.f;
-    sf::RectangleShape rectangle(sf::Vector2f(10.f, 10.f));
-    rectangle.setOutlineThickness(10);
-    rectangle.setPosition(vRectangle);
-    rectangle.setOutlineColor(sf::Color::Blue);
-    
-    //Polygon
-    sf::CircleShape polygon(60.f, 5);
-    polygon.setFillColor(sf::Color::Red);
-    polygon.setPosition(sf::Vector2f(60.f, 60.f));
+    //Movement Funcs
+   
+
+    //---------------------------INITIALIZE-------------------------------------------------------------
 
     //Run as long as the window object isOpen, this is the main game loop
     while (window.isOpen())
@@ -52,26 +46,48 @@ int main()
                 window.close();
             }
 
-           /* Move Attempt
-           rectangle.move(1.f, 1.f);
-            if (vRectangle.x > 800.f || vRectangle.y > 600.f)
-            {
-                std::cout << "Joe Mama";
-                vRectangle.x = 0.f;
-                vRectangle.y = 0.f;
-            }
-            */
         } 
-        
+
         //----------------------------UPDATE-----------------------------------------------------------
+
+           if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+              
+              
+               playerSprite.move(sf::Vector2f(0.1, 0.f));
+
+            }
+
+           if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+           {
+
+
+               playerSprite.move(sf::Vector2f(-0.1, 0.f));
+
+           }
+
+           if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+           {
+
+
+               playerSprite.move(sf::Vector2f(0.f, -0.1));
+
+           }
+
+           if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+           {
+
+
+               playerSprite.move(sf::Vector2f(0.f, 0.1));
+
+           }
+
 
         //----------------------------DRAW-------------------------------------------------------------
         //clear function, uses the SFML color class
         window.clear(sf::Color::Black);
 
-        window.draw(circle);
-        window.draw(rectangle);
-        window.draw(polygon);
+        window.draw(playerSprite);
 
         //displays the frame in the window and ends the current frame
         window.display();
