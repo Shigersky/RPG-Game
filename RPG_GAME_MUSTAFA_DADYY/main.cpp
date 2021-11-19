@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <math.h>
+#include "Player.h"
 
 //normalizing function
 sf::Vector2f NormalizeVector(sf::Vector2f vector)
@@ -27,19 +28,16 @@ int main()
 
     //---------------------------INITIALIZE-------------------------------------------------------------
 
-
+    Player player;
 
     // --------------------------LOAD-------------------------------------------------------------------
+    
     //Loading Player Sprite
-    sf::Texture playerTexture;
-    sf::Sprite playerSprite;
-    int XIndex = 4;
-    int YIndex = 2;
-    playerTexture.loadFromFile("Assets/Player/Textures/PlayerSkeleton.png");
-    playerSprite.setTexture(playerTexture);
-    playerSprite.setTextureRect(sf::IntRect(64 * XIndex, 64 * YIndex, 64, 64));
-    playerSprite.setScale(sf::Vector2f(2.f, 2.f));
-    playerSprite.setPosition(sf::Vector2f(20.f, 20.f));
+
+    player.Load();
+
+    
+   
 
     //Loading Enemy Skeleton Sprite
     sf::Texture enemySkeletonTexture;
@@ -88,44 +86,14 @@ int main()
         //----------------------------UPDATE-----------------------------------------------------------
 
         //Player Movement
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-
-
-            playerSprite.move(sf::Vector2f(0.1, 0.f));
-
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-
-
-            playerSprite.move(sf::Vector2f(-0.1, 0.f));
-
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        {
-
-
-            playerSprite.move(sf::Vector2f(0.f, -0.1));
-
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-
-
-            playerSprite.move(sf::Vector2f(0.f, 0.1));
-
-        }
+        player.Update();
 
         //Bullet 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             bullets.push_back(sf::RectangleShape(sf::Vector2f(20.f, 10.f)));
             int bulletIndex = bullets.size() - 1;
-            sf::Vector2f playerPosition = playerSprite.getPosition();
+            sf::Vector2f playerPosition = player.sprite.getPosition();
             sf::Vector2f bulletPosition;
             bulletPosition.x = playerPosition.x + 64.f;
             bulletPosition.y = playerPosition.y + 64.f;
@@ -147,7 +115,8 @@ int main()
 
 
         window.draw(enemySkeletonSprite);
-        window.draw(playerSprite);
+        window.draw(player.sprite);
+        player.Draw();
 
             for (size_t i = 0; i < bullets.size(); i++)
             {
