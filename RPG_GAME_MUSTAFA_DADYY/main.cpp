@@ -19,7 +19,12 @@ int main()
     //---------------------------INITIALIZE-------------------------------------------------------------
 
     Player player;
+
+    player.Initialize();
+
     Skeleton skeleton;
+
+    skeleton.Initialize();
 
     // --------------------------LOAD-------------------------------------------------------------------
     
@@ -66,6 +71,9 @@ int main()
 
         skeleton.Draw(window);
         player.Draw(window);
+
+    
+        
 
         //displays the frame in the window and ends the current frame
         window.display();

@@ -8,9 +8,19 @@ class Player
 
 	private:
 
+		//Initializing Player Sprite
 		sf::Texture texture;
+		int XIndex = 0;
+		int YIndex = 0;
+		float width = 64.f;
+		float height = 64.f;
+
+		//Bullet Vector
 		std::vector <sf::RectangleShape> bullets;
 		float bulletSpeed = 1;
+
+		//Initializing Player Hitbox
+		sf::RectangleShape hitBox;
 
 	public:
 		sf::Sprite sprite;

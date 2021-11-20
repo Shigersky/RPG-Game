@@ -3,18 +3,27 @@
 
 void Player::Initialize()
 {
+    //Initializng Player Sprite
+    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect(64 * XIndex, 64 * YIndex, width, height));
+    sprite.setScale(sf::Vector2f(2.f, 2.f));
+    sprite.setPosition(sf::Vector2f(20.f, 20.f));
+
+    //Initializng Player Hitbox
+    
+    hitBox.setSize(sf::Vector2f(width * sprite.getScale().x, height * sprite.getScale().y));
+    hitBox.setOutlineColor(sf::Color::Red);
+    hitBox.setFillColor(sf::Color::Transparent);
+    hitBox.setOutlineThickness(1.f);
+    hitBox.setPosition(sprite.getPosition());
 }
 
 void Player::Load()
 {
 
-    int XIndex = 4;
-    int YIndex = 2;
+    
     texture.loadFromFile("Assets/Player/Textures/PlayerSkeleton.png");
-    sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(64 * XIndex, 64 * YIndex, 64, 64));
-    sprite.setScale(sf::Vector2f(2.f, 2.f));
-    sprite.setPosition(sf::Vector2f(20.f, 20.f));
+
 
 }
 
@@ -22,6 +31,9 @@ void Player::Draw(sf::RenderWindow &window)
 {
     //Drawing Player Sprite
     window.draw(sprite);
+
+    //Player Hitbox
+    window.draw(Player::hitBox);
 
     //Drawing Bullets
     for (size_t i = 0; i < bullets.size(); i++)
@@ -89,5 +101,14 @@ void Player::Update(Skeleton& skeleton)
         bullets[i].setPosition(bullets[i].getPosition() + bDirection * bulletSpeed);
     }
 
+    //Hitbox Update
+
+    hitBox.setPosition(sprite.getPosition());
+
+    if (Math::CheckRectCollision(sprite.getGlobalBounds(), skeleton.enemySkeletonSprite.getGlobalBounds()))
+    {
+        std::cout << "Lessgo";
+    }
+        
 
 }

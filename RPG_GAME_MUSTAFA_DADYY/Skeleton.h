@@ -8,11 +8,18 @@ class Skeleton
 
 		sf::Texture enemySkeletonTexture;
 
+		sf::RectangleShape hitBox;
+
+		float width = 64.f;
+		float height = 64.f;
+
 	public:
 
 		sf::Sprite enemySkeletonSprite;
 
 	public:
+
+	void Initialize();
 
 	void Load();
 
