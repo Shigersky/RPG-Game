@@ -1,23 +1,13 @@
 #include <iostream >
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include <math.h>
-#include "Player.h"
 
-//normalizing function
-sf::Vector2f NormalizeVector(sf::Vector2f vector)
-{
-    float m = sqrt(vector.x * vector.x + vector.y + vector.y);
-    sf::Vector2f normalizedVector;
-    normalizedVector.x = vector.x / m;
-    normalizedVector.y = vector.y / m;
-    return normalizedVector;
-}
+#include "Player.h"
+#include "Skeleton.h"
 
 int main()
 {
     //---------------------------INITIALIZE-------------------------------------------------------------
-
 
     //Turning On anti-aliasing
     sf::ContextSettings aa;
@@ -29,6 +19,7 @@ int main()
     //---------------------------INITIALIZE-------------------------------------------------------------
 
     Player player;
+    Skeleton skeleton;
 
     // --------------------------LOAD-------------------------------------------------------------------
     
@@ -36,30 +27,11 @@ int main()
 
     player.Load();
 
-    
-   
-
     //Loading Enemy Skeleton Sprite
-    sf::Texture enemySkeletonTexture;
-    sf::Sprite enemySkeletonSprite;
-    int EXIndex = 0;
-    int EYIndex = 0;
-    float skeletonPX = 896;
-    float skeletonPY = 476;
-    enemySkeletonTexture.loadFromFile("Assets/Skeleton_Enemy/PlayerSkeleton.png");
-    enemySkeletonSprite.setTexture(enemySkeletonTexture);
-    enemySkeletonSprite.setTextureRect(sf::IntRect(64 * EXIndex, 64 * EYIndex, 64, 64));
-    enemySkeletonSprite.setPosition(sf::Vector2f(skeletonPX, skeletonPY));
+  
+    skeleton.Load();
 
     // --------------------------LOAD-------------------------------------------------------------------
-
-    //Bullet
-    
-    std::vector <sf::RectangleShape> bullets;
-    float bulletSpeed = 1;
-   
-    
-    
 
     //---------------------------UPDATE-------------------------------------------------------------
 
@@ -86,50 +58,19 @@ int main()
         //----------------------------UPDATE-----------------------------------------------------------
 
         //Player Movement
-        player.Update();
-
-        //Bullet 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-        {
-            bullets.push_back(sf::RectangleShape(sf::Vector2f(20.f, 10.f)));
-            int bulletIndex = bullets.size() - 1;
-            sf::Vector2f playerPosition = player.sprite.getPosition();
-            sf::Vector2f bulletPosition;
-            bulletPosition.x = playerPosition.x + 64.f;
-            bulletPosition.y = playerPosition.y + 64.f;
-            bullets[bulletIndex].setPosition(bulletPosition);
-        }
-
-        for (size_t i = 0; i < bullets.size(); i++)
-        {
-           
-            sf::Vector2f bDirection = enemySkeletonSprite.getPosition() - bullets[i].getPosition();
-            bDirection = NormalizeVector(bDirection);
-            bullets[i].setPosition(bullets[i].getPosition() + bDirection * bulletSpeed);
-        }
-        
+        player.Update(skeleton);
 
         //----------------------------DRAW-------------------------------------------------------------
         //clear function, uses the SFML color class
         window.clear(sf::Color::Black);
 
-
-        window.draw(enemySkeletonSprite);
-        window.draw(player.sprite);
-        player.Draw();
-
-            for (size_t i = 0; i < bullets.size(); i++)
-            {
-
-                window.draw(bullets[i]);
-
-            }
+        skeleton.Draw(window);
+        player.Draw(window);
 
         //displays the frame in the window and ends the current frame
         window.display();
         //----------------------------DRAW------------------------------------------------------------
     }
-
 
     return 0;
 }

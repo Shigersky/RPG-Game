@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Skeleton.h"
 
 class Player
 {
@@ -7,6 +9,8 @@ class Player
 	private:
 
 		sf::Texture texture;
+		std::vector <sf::RectangleShape> bullets;
+		float bulletSpeed = 1;
 
 	public:
 		sf::Sprite sprite;
@@ -15,8 +19,8 @@ class Player
 
 		void Initialize(); // called once
 		void Load(); // called once
-		void Draw(); // once per frame
-		void Update(); // once per frame
+		void Draw(sf::RenderWindow &window); // once per frame
+		void Update(Skeleton& skeleton); // once per frame
 
 	
 
