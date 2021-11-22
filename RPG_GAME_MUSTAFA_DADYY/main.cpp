@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Player.h"
 #include "Skeleton.h"
+#include "FPS.h"
 
 int main()
 {
@@ -18,23 +19,28 @@ int main()
     window.setFramerateLimit(75.f);
     //---------------------------INITIALIZE-------------------------------------------------------------
 
+    //player
     Player player;
-
     player.Initialize();
 
+    //skeleton
     Skeleton skeleton;
-
     skeleton.Initialize();
+
+    //fps display
+    FPS fps;
+    fps.Initialize();
 
     // --------------------------LOAD-------------------------------------------------------------------
     
     //Loading Player Sprite
-
     player.Load();
 
     //Loading Enemy Skeleton Sprite
-  
     skeleton.Load();
+
+    //loading fps font
+    fps.Load();
 
     // --------------------------LOAD-------------------------------------------------------------------
 
@@ -63,6 +69,7 @@ int main()
 
         }
 
+        //Deltatime
         sf::Time deltaTimer = clock.restart();
         float deltaTime = deltaTimer.asMilliseconds();
 
@@ -71,6 +78,9 @@ int main()
         //Player Movement
         player.Update(deltaTime, skeleton);
 
+        //FPS update
+        fps.Update(clock, deltaTime);
+
         //----------------------------DRAW-------------------------------------------------------------
         //clear function, uses the SFML color class
         window.clear(sf::Color::Black);
@@ -78,14 +88,12 @@ int main()
         skeleton.Draw(window);
         player.Draw(window);
 
-    
-        
+        fps.Draw(window);
 
         //displays the frame in the window and ends the current frame
         window.display();
-        //----------------------------DRAW------------------------------------------------------------
 
-        
+        //----------------------------DRAW------------------------------------------------------------
 
     }
 
