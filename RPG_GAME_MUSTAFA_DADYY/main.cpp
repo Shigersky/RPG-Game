@@ -1,7 +1,7 @@
 #include <iostream >
 #include <SFML/Graphics.hpp>
 #include <math.h>
-
+#include <iostream>
 #include "Player.h"
 #include "Skeleton.h"
 
@@ -15,7 +15,7 @@ int main()
 
     //Create window object from RenderWindow class, takes 2 arguments into constructor
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "RPG Game", sf::Style::Default, aa);
-
+    window.setFramerateLimit(75.f);
     //---------------------------INITIALIZE-------------------------------------------------------------
 
     Player player;
@@ -37,6 +37,9 @@ int main()
     skeleton.Load();
 
     // --------------------------LOAD-------------------------------------------------------------------
+
+    //Cock
+    sf::Clock clock;
 
     //---------------------------UPDATE-------------------------------------------------------------
 
@@ -60,10 +63,13 @@ int main()
 
         }
 
+        sf::Time deltaTimer = clock.restart();
+        float deltaTime = deltaTimer.asMilliseconds();
+
         //----------------------------UPDATE-----------------------------------------------------------
 
         //Player Movement
-        player.Update(skeleton);
+        player.Update(deltaTime, skeleton);
 
         //----------------------------DRAW-------------------------------------------------------------
         //clear function, uses the SFML color class
@@ -78,6 +84,9 @@ int main()
         //displays the frame in the window and ends the current frame
         window.display();
         //----------------------------DRAW------------------------------------------------------------
+
+        
+
     }
 
     return 0;

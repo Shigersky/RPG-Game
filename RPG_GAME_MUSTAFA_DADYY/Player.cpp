@@ -44,7 +44,7 @@ void Player::Draw(sf::RenderWindow &window)
     }
 }
 
-void Player::Update(Skeleton& skeleton)
+void Player::Update(float deltaTime, Skeleton& skeleton)
 
     //Player Movement
 {
@@ -52,7 +52,7 @@ void Player::Update(Skeleton& skeleton)
     {
 
 
-        sprite.move(sf::Vector2f(0.1, 0.f));
+        sprite.move(sf::Vector2f(0.1, 0.f) * deltaTime * playerSpeed);
 
     }
 
@@ -60,7 +60,7 @@ void Player::Update(Skeleton& skeleton)
     {
 
 
-        sprite.move(sf::Vector2f(-0.1, 0.f));
+        sprite.move(sf::Vector2f(-0.1, 0.f) * deltaTime * playerSpeed);
 
     }
 
@@ -68,7 +68,7 @@ void Player::Update(Skeleton& skeleton)
     {
 
 
-        sprite.move(sf::Vector2f(0.f, -0.1));
+        sprite.move(sf::Vector2f(0.f, -0.1) * deltaTime * playerSpeed);
 
     }
 
@@ -76,7 +76,7 @@ void Player::Update(Skeleton& skeleton)
     {
 
 
-        sprite.move(sf::Vector2f(0.f, 0.1));
+        sprite.move(sf::Vector2f(0.f, 0.1) * deltaTime * playerSpeed);
 
     }
 
@@ -98,7 +98,7 @@ void Player::Update(Skeleton& skeleton)
 
         sf::Vector2f bDirection = skeleton.enemySkeletonSprite.getPosition() - bullets[i].getPosition();
         bDirection = Math::NormalizeVector(bDirection);
-        bullets[i].setPosition(bullets[i].getPosition() + bDirection * bulletSpeed);
+        bullets[i].setPosition(bullets[i].getPosition() + bDirection * bulletSpeed * deltaTime);
     }
 
     //Hitbox Update
