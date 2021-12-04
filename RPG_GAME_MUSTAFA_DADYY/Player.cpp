@@ -1,6 +1,11 @@
 #include "Player.h"
 #include "Math.h"
 
+Player::Player() : bulletSpeed(0.5f), playerSpeed(3.0f), fireRate(200.f), fireRateTimer(0)
+{
+
+}
+
 void Player::Initialize()
 {
     //Initializng Player Sprite
@@ -80,9 +85,13 @@ void Player::Update(float deltaTime, Skeleton& skeleton)
 
     }
 
-    // Bullet Movement 
+    //---------------------------------------------------------------------------------------------------------------------------------
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    // Bullet Movement 
+    
+    fireRateTimer += deltaTime;
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && fireRateTimer >= fireRate)
     {
         bullets.push_back(sf::RectangleShape(sf::Vector2f(20.f, 10.f)));
         int bulletIndex = bullets.size() - 1;
@@ -91,6 +100,7 @@ void Player::Update(float deltaTime, Skeleton& skeleton)
         bulletPosition.x = playerPosition.x + 64.f;
         bulletPosition.y = playerPosition.y + 64.f;
         bullets[bulletIndex].setPosition(bulletPosition);
+        fireRateTimer = 0;
     }
 
     for (size_t i = 0; i < bullets.size(); i++)
@@ -99,6 +109,13 @@ void Player::Update(float deltaTime, Skeleton& skeleton)
         sf::Vector2f bDirection = skeleton.enemySkeletonSprite.getPosition() - bullets[i].getPosition();
         bDirection = Math::NormalizeVector(bDirection);
         bullets[i].setPosition(bullets[i].getPosition() + bDirection * bulletSpeed * deltaTime);
+
+        if (Math::CheckRectCollision(bullets[i].getGlobalBounds(), skeleton.enemySkeletonSprite.getGlobalBounds()))
+        {
+            skeleton.SetHealth(-10);
+            bullets.erase(bullets.begin() + i);
+            std::cout << skeleton.health <<"\n";
+        }
     }
 
     //Hitbox Update

@@ -14,12 +14,14 @@ class Player
 		int YIndex = 0;
 		float width = 64.f;
 		float height = 64.f;
-		float playerSpeed = 2;
+		float playerSpeed = 0;
 
 
 		//Bullet Vector
 		std::vector <sf::RectangleShape> bullets;
 		float bulletSpeed = 1;
+		float fireRate = 0;
+		float fireRateTimer = 0;
 
 		//Initializing Player Hitbox
 		sf::RectangleShape hitBox;
@@ -28,6 +30,8 @@ class Player
 		sf::Sprite sprite;
 
 	public:
+		
+		Player();
 
 		void Initialize(); // called once
 		void Load(); // called once

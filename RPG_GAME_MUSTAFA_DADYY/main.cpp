@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 #include <iostream>
+
+//headers
 #include "Player.h"
 #include "Skeleton.h"
 #include "FPS.h"
@@ -78,6 +80,8 @@ int main()
         //Player Movement
         player.Update(deltaTime, skeleton);
 
+        skeleton.Update();
+
         //FPS update
         fps.Update(clock, deltaTime);
 
@@ -96,6 +100,6 @@ int main()
         //----------------------------DRAW------------------------------------------------------------
 
     }
-
+ 
     return 0;
 }

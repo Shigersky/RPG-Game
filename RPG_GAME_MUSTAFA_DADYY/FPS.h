@@ -11,7 +11,12 @@ class FPS
 		sf::Text fpsText;
 		sf::Font fpsFont;
 
+		float timer;
+
+
 	public:
+
+		FPS();
 
 		void Initialize();
 		void Load();

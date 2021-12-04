@@ -1,5 +1,16 @@
 #include "Skeleton.h"
 
+Skeleton::Skeleton() : health(100)
+{
+
+}
+
+void Skeleton::SetHealth(int hp)
+{
+    health += hp;
+    hpText.setString(std::to_string(health));
+}
+
 void Skeleton::Initialize()
 {
     
@@ -25,13 +36,35 @@ void Skeleton::Initialize()
 
 void Skeleton::Load()
 {
+    //skeleton sprite
     enemySkeletonTexture.loadFromFile("Assets/Skeleton_Enemy/PlayerSkeleton.png");
+
+    //skeleton display hp
+    hpFont.loadFromFile("Assets/Fonts/arial.ttf");
+    hpText.setFont(hpFont);
+    hpText.setString(std::to_string(health));
+ 
+}
+
+void Skeleton::Update()
+{
+    if (health > 0)
+    {
+    hpText.setPosition(enemySkeletonSprite.getPosition());
+
+    }
+    
 }
 
 
 
-void Skeleton::Draw(sf::RenderWindow &window)
+void Skeleton::Draw(sf::RenderWindow& window)
 {
-    window.draw(enemySkeletonSprite);
-    window.draw(hitBox);
+    if (health > 0)
+    {
+        window.draw(enemySkeletonSprite);
+        window.draw(hitBox);
+        window.draw(hpText);
+    }
+
 }
